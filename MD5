@@ -1,6 +1,6 @@
-4b1a7aa7761edccdf610b39933a37e04 *DESCRIPTION
+42d4164ad1d3fc2fe896c19d5591d7ef *DESCRIPTION
 ec05518696846e1a18c1d8d318cf4956 *NAMESPACE
-3f1db845a40fdf50fdee555d11a7c893 *NEWS.md
+29cdb7343238e30629f5cfa4d5bc2d0f *NEWS.md
 b2f9fd290788fe516a23889343c76f9b *R/Clustering.R
 a7f35f72d8c79f475d7f3257a6a17bca *R/Pop_Gen_Functions.R
 1877394fab11d50380b68e8c049bbcbc *R/Pop_Gen_setup.R
@@ -61,7 +61,7 @@ bf2f1ad432ecccee3400afe533404113 *man/figures/lifecycle-superseded.svg
 1d69ef34741fbb6c07a855807de3b9fa *man/fsa_batch_imp.Rd
 fff3ba1172e5863834da75a62d3bb152 *man/fsa_metadata.Rd
 af72d2c554b77ade27cfa80f316b0da5 *man/lf_to_tdf.Rd
-453b6cca9a2560501c20818729c5f141 *man/pooledpeaks-package.Rd
+acc5844ed6e1d2a74096fd5bd1882819 *man/pooledpeaks-package.Rd
 3ddd5928dd9aa0bc48248e3b9fa27e85 *man/preGST.Rd
 10dcf61bd1f06660be949b7504ebb315 *man/preJostD.Rd
 8029687ab1dc8d29493ff6f6d2aba6e8 *man/score_markers_rev3.Rd
@@ -69,7 +69,7 @@ c8ff6a14743c5091d1b678513271db0d *tests/testthat.R
 4897d1b6df74f715e1cc6054e910bf0c *tests/testthat/test-Clustering.R
 8959d7f24a149b59f3bd0cc005401d86 *tests/testthat/test-Pop_Gen_Functions.R
 1b89f9f065fc0734c8dde44baf18095e *tests/testthat/test-Pop_Gen_setup.R
-6d2b822051eb0379e7839cad65f4c08a *tests/testthat/test-Replicate_check.R
+b7943e736c52d1c56b62e35017330e19 *tests/testthat/test-Replicate_check.R
 2a60281640b507c6d575f2292f9f5fe8 *tests/testthat/test-associate_dyes.R
 c4cab955b2bfbbe89cd31a29ade80dc9 *tests/testthat/test-batch_import.R
 f008ee70408576cc142a3c82dcf4ceae *tests/testthat/test-batch_version.R

@@ -84,9 +84,10 @@ test_that("Rep_check correctly processes and flags duplicate samples, and
 
   # Check if the function prints the expected messages
   expect_message(Rep_check(df), "Jost D between duplicate samples")
-  expect_message(Rep_check(df),"Multiplex_set_I_Shaem.1, Multiplex_set_I_Shaem.2, Multiplex_set_I_Shaem.3, Multiplex_set_I_Shaem.4, Multiplex_set_I_Smans.1")
-  expect_message(Rep_check(df), "8.72460211127635e-05, 0.372616004803687, 0.0120236418304402, 0.108854747323611")
+  expect_message(Rep_check(df), "Multiplex_set_I_Shaem.1, Multiplex_set_I_Shaem.2, Multiplex_set_I_Shaem.3, Multiplex_set_I_Shaem.4, Multiplex_set_I_Smans.1")
+  #expect_message(Rep_check(df), "8.72460211127635e-05, 0.372616004803687, 0.0120236418304402, 0.108854747323611")
   expect_message(Rep_check(df), "Samples where duplicates have a Jost D exceeding 0.05")
+  expect_message(Rep_check(df), "Multiplex_set_I_Shaem.3, Multiplex_set_I_Smans.1")
 })
 
 

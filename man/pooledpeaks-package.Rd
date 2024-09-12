@@ -19,10 +19,14 @@ Useful links:
 \author{
 \strong{Maintainer}: Kathleen Kuesters \email{kathleen.kuesters@gmail.com} (\href{https://orcid.org/0000-0003-0238-7889}{ORCID}) [copyright holder]
 
+Authors:
+\itemize{
+  \item Jeffrey Long
+  \item Jessica Blanton
+}
+
 Other contributors:
 \itemize{
-  \item Jeffrey Long [contributor]
-  \item Jessica Blanton [contributor]
   \item Walter Blank [contributor]
   \item Jeffrey Kovach [contributor]
   \item Ronald Blanton [contributor]
