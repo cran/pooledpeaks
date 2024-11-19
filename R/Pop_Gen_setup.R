@@ -60,17 +60,32 @@ LoadData <- function(datafile=NULL)
 
 TypedLoci <- function(datafile=data.frame) {
 
+  # Subset to remove rows where the 3rd column is "NA" (string)
   b <- subset(datafile,datafile[,3]!='NA')
 
-  for (i in 1:nrow(b))
-    for (j in 3:ncol(b))
-      if (b[i,j]>1) b[i,j]<-1
+  # Replace all NA values with 0
+  b[is.na(b)] <- 0
 
+  # Ensure all values greater than 1 are set to 1
+  for (i in 1:nrow(b)){
+    for (j in 3:ncol(b)){
+      if (b[i,j]>1) {
+        b[i,j]<-1
+      }
+    }
+  }
+
+  # Subset to only keep rows where the 2nd column is "n"
   b <- subset(b,b[,2]=='n')
+
+  # Remove the first two columns
   b <- b[,-(1:2)]
+
+  # Convert to a matrix and compute the matrix product
   X <- as.matrix(b)
   N <- t(X)%*%X
 
+  return(N)
 }
 
 #' Gene Identity Matrix

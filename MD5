@@ -1,9 +1,9 @@
-42d4164ad1d3fc2fe896c19d5591d7ef *DESCRIPTION
+0174abd27572742fc221ccba06dac671 *DESCRIPTION
 ec05518696846e1a18c1d8d318cf4956 *NAMESPACE
-29cdb7343238e30629f5cfa4d5bc2d0f *NEWS.md
+530820264021c2af8fc8f15f13ab9406 *NEWS.md
 b2f9fd290788fe516a23889343c76f9b *R/Clustering.R
 a7f35f72d8c79f475d7f3257a6a17bca *R/Pop_Gen_Functions.R
-1877394fab11d50380b68e8c049bbcbc *R/Pop_Gen_setup.R
+9d8a555454736d89d24612e43b0d728e *R/Pop_Gen_setup.R
 f115ce80836b6625de6e6077c2b2f6a5 *R/Replicate_check.R
 4f7705348a58c8fbc0efac9a68d40089 *R/associate_dyes.R
 ebdd97de802bc37d2a6b7eb9d9c23b2b *R/batch_import.R
@@ -12,7 +12,7 @@ ebdd97de802bc37d2a6b7eb9d9c23b2b *R/batch_import.R
 e38eb7237dfafb0e6c631e698e4a468a *R/pooledpeaks-package.R
 4ab2690d10d66bed32048626122a2f5c *R/score_marker_wrap.R
 c8c601cdf96ed4b52b73784abc7d992f *README.md
-aa5e5a2cbfaea3d9b6cdbe378ac48cee *build/partial.rdb
+76161b65639451c966be75488458b3c3 *build/partial.rdb
 0976d90590f1b2127baa25e3f25f9a43 *inst/extdata/23.2a_I_A01_2012-07-18.fsa
 47d5ac10a622a525fb0422b561e4756d *inst/extdata/23.2b_I_A07_2012-07-18.fsa
 7e6713d04b50ae3272519077c3816693 *inst/extdata/30.3a_I_B01_2012-07-18.fsa
