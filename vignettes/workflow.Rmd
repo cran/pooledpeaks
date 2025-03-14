@@ -20,9 +20,9 @@ library(pooledpeaks)
 
 # Introduction
 
-Welcome to pooledpeaks. This guide introduces researchers to pooledpeaks for 
-analyzing microsatellite markers, scoring `.fsa` files, and calculating genetic 
-measures like Nei's GST and Jost's D. Basic R skills are required, but most 
+Welcome to pooledpeaks. This guide introduces researchers to pooledpeaks for
+analyzing microsatellite markers, scoring `.fsa` files, and calculating genetic
+measures like Nei's GST and Jost's D. Basic R skills are required, but most
 steps are straightforward.
 
 # What This Vignette Covers
@@ -34,18 +34,19 @@ This vignette outlines:
 3. **Data manipulation**: Cleaning and preparing peak scores.
 4. **Genetic analysis**: Calculating diversity and differentiation measures.
 
-Each step builds on the previous, so follow the vignette sequentially. However, 
+Each step builds on the previous, so follow the vignette sequentially. However,
 the three sections, Peak Scoring, Data Manipulation, and Genetic Analysis, can
-be run separately. 
+be run separately.
 
 # 1. General Setup
 
-To get started you will need to set up the R environment by setting the working 
-directory, loading the required libraries, reading in the source files with the 
+To get started you will need to set up the R environment by setting the working
+directory, loading the required libraries, reading in the source files with the
 functions written specifically for this analysis pipeline.
 
-In addition to **pooledpeaks**, library the following packages to utilize this 
-package to its fullest capacity.
+In addition to the `pooledpeaks` library the following packages are require to
+utilize this package to its fullest capacity.
+
 ```{r, message=FALSE}
 library(Fragman)
 library(ape)
@@ -53,171 +54,173 @@ library(magrittr)
 library(tibble)
 library(dplyr)
 ```
-Identify where the .fsa files are located on your computer, load in the 
-eggcount data (should be an excel or csv file but can be a dataframe), and 
+Identify where the `.fsa` files are located on your computer, load in the
+eggcount data (should be an excel or csv file but can be a dataframe), and
 provide the expected peak size panels for your markers and ladder.
+
 ```{r}
 file_path <- system.file("extdata", package = "pooledpeaks")
 eggcount <- data.frame(
-    ID = c("X104.1",  "X1084.1", "X1084.3", "X1086.3", "X1087.3", "X1205.3", 
-           "X121.3",  "X1222.3", "X1354.3", "X1453.3", "X1531.3", "X1540.1", 
-           "X1550.3", "X1796.1", "X1809.1", "X1968.1", "X1968.3", "X2100.1", 
-           "X2462.1", "X2463.1", "X473.1",  "X620.1",  "X620.3", "X679.1", 
+    ID = c("X104.1",  "X1084.1", "X1084.3", "X1086.3", "X1087.3", "X1205.3",
+           "X121.3",  "X1222.3", "X1354.3", "X1453.3", "X1531.3", "X1540.1",
+           "X1550.3", "X1796.1", "X1809.1", "X1968.1", "X1968.3", "X2100.1",
+           "X2462.1", "X2463.1", "X473.1",  "X620.1",  "X620.3", "X679.1",
            "X910.1",  "X910.3"),
-    n = c(192, 126, 185, 171, 140, 20, 46, 80, 156, 154, 122, 19, 45, 117, 75, 
+    n = c(192, 126, 185, 171, 140, 20, 46, 80, 156, 154, 122, 19, 45, 117, 75,
           22, 175, 100, 97, 183, 67, 90, 157, 104, 195, 145)
   )
 Shae10 <- c(161,164,167,170,173,176,179,182,185,188,191,194,197,200,203,206,209,
             212,215,218)
 mic_SMMS2 <- c(211, 215, 219, 223, 227, 231, 235, 239)
 GS600LIZ <- c(20, 40, 60, 80, 100, 114, 120, 140, 160, 180, 200, 214, 220,
-              240, 250, 260, 280, 300, 314, 320, 340, 360, 380, 400, 414, 
+              240, 250, 260, 280, 300, 314, 320, 340, 360, 380, 400, 414,
               420, 440, 460, 480, 500, 514, 520, 540, 560, 580, 600)
 ```
 
 # 2. Peak Scoring
 
 With your data loaded, we can move on to the peak scoring section. To facilitate
-this process, **pooledpeaks** incorporates functionality adapted from the **Fragman** 
-package, originally developed for microsatellite typing in plants. These 
-adaptations allow for the scoring of both allele sizes and their corresponding 
-heights in the newer .fsa file versions.
+this process, **pooledpeaks** incorporates functionality adapted from the
+`Fragman` package, originally developed for microsatellite typing in plants. These
+adaptations allow for the scoring of both allele sizes and their corresponding
+heights in the newer `.fsa` file versions.
 
-## Batch Import and Extracting .fsa Data 
-This section demonstrates how to import the .fsa files from the file directory 
-into R and combine all of them into a list of data frames, wherein each file is 
-stored as a data frame within the list. **channels** specifies that we are using a 
-five channel dye set of which 1-4 are fluorescent label colors, and 5 contains 
-the ladder. **fourier** and **saturated** should both be set to TRUE and **lets.pullup** to
-FALSE. When **rawPlot** is set to TRUE, the function will provide an overview of all
-peaks across all files within each channel. Once .fsa files have been imported, 
-the dyes must be associated with the channels. This can be done using `associate_dyes()`. 
+## Batch Import and Extracting .fsa Data
+This section demonstrates how to import the `.fsa` files from the file directory
+into R and combine all of them into a list of data frames, wherein each file is
+stored as a data frame within the list. `channels` specifies that we are using a
+five channel dye set of which 1-4 are fluorescent label colors, and 5 contains
+the ladder. `fourier` and `saturated` should both be set to `TRUE` and `lets.pullup` to
+`FALSE`. When `rawPlot` is set to `TRUE`, the function will provide an overview of all
+peaks across all files within each channel. Once `.fsa` files have been imported,
+the dyes must be associated with the channels. This can be done using `associate_dyes()`.
 
 ```{r}
-fsa_data <- fsa_batch_imp(file_path, channels = 5, rawPlot = FALSE, 
-                              fourier = TRUE, saturated = TRUE, 
+fsa_data <- fsa_batch_imp(file_path, channels = 5, rawPlot = FALSE,
+                              fourier = TRUE, saturated = TRUE,
                               lets.pullup = FALSE)
 fsa_data <- associate_dyes(fsa_data, file_path)
 ```
-**Note:** If you are encountering issues, you may want to consider checking the 
+**Note:** If you are encountering issues, you may want to consider checking the
 file version and/or metadata using `check_fsa_v_batch()` or `fsa_metadata()`.
 
 ## Match Sizing Ladder
 
-To calibrate fragment sizes, the internal size marker peaks in each sample must 
-match the expected sizes from the ladder. For this example, we use the **LIZ600** 
-object, which contains the expected allele sizes for the ladder. If you are 
-using a different ladder or wish to adjust the fragment sizes, modify the c(...)
+To calibrate fragment sizes, the internal size marker peaks in each sample must
+match the expected sizes from the ladder. For this example, we use the `LIZ600`
+object, which contains the expected allele sizes for the ladder. If you are
+using a different ladder or wish to adjust the fragment sizes, modify the `c(...)`
 values in the setup.
 
-Next, we associate the ladder with the imported data. This step is performed 
-once per dataset and ensures proper sizing by comparing the expected ladder 
+Next, we associate the ladder with the imported data. This step is performed
+once per dataset and ensures proper sizing by comparing the expected ladder
 sizes with the observed values. The program checks the correlation between these
-values, outputs the correlation results, and flags poorly correlated samples 
-(<99.9%) in a vector named **bad**.
+values, outputs the correlation results, and flags poorly correlated samples
+(<99.9%) in a vector named `bad`.
 
 ```{r, message=FALSE,eval=FALSE}
-ladder.info.attach(stored = fsa_data,ladder = GS600LIZ, 
-                   ladd.init.thresh = 200, prog = FALSE, draw = FALSE) 
+ladder.info.attach(stored = fsa_data,ladder = GS600LIZ,
+                   ladd.init.thresh = 200, prog = FALSE, draw = FALSE)
 corro <- unlist(sapply(list.data.covarrubias, function(x){x$corr}))
 bad <- which(corro < .999)
 ```
 
-**Note:** If warnings are thrown, lowering the **ladd.init.thresh** may resolve 
-the issue, or certain samples may need to be addressed manually as per the 
-**Fragman** documentation (run **?ladder.corrector**).
+**Note:** If warnings are thrown, lowering the `ladd.init.thresh` may resolve
+the issue, or certain samples may need to be addressed manually as per the
+`Fragman` documentation (run `?ladder.corrector`).
 
 ## Scoring Peaks by Marker
 
-The above chunks set up all samples for all markers and only need to be done 
+The above chunks set up all samples for all markers and only need to be done
 once per analysis. The following steps will need to be repeated as many times as
 the number of microsatellite markers you have.
 
-Using the **score_markers_rev3** function (adapted from **Fragman**), you can 
-score genotyped peaks based on size (weight) and intensity (height). This 
-function bins peaks by comparing observed fragment sizes to expected 
+Using the `score_markers_rev3` function (adapted from `Fragman`), you can
+score genotyped peaks based on size (weight) and intensity (height). This
+function bins peaks by comparing observed fragment sizes to expected
 microsatellite fragment sizes.
 
 **Key Parameters to Customize**
 
-* **my.inds:** The object containing your .fsa data.
+* `my.inds`: The object containing your .fsa data.
 
-* **channel:** The fluorescence channel to analyze (e.g., 1 = blue, 2 = green, etc.).
+* `channel`: The fluorescence channel to analyze (e.g., 1 = blue, 2 = green, etc.).
 
-* **panel:** Expected fragment sizes for your sample.
+* `panel`: Expected fragment sizes for your sample.
 
-* **Ladder:** The ladder associated with your dataset.
+* `Ladder`: The ladder associated with your dataset.
 
-* **init.thresh:** RFU value threshold to consider a peak valid.
+* `init.thresh`: RFU value threshold to consider a peak valid.
 
-* **ploidy:** The number of possible alleles per marker (e.g., for diploids, ploidy = 2).
+* `ploidy`: The number of possible alleles per marker (e.g., for diploids, ploidy = 2).
 
-Other options like **window** (distance from the expected size to count as a 
-peak) and **shift** (handling stutter peaks) can be adjusted as needed. 
-Refer to the **Fragman** documentation for detailed explanations.
+Other options like `window` (distance from the expected size to count as a
+peak) and `shift` (handling stutter peaks) can be adjusted as needed.
+Refer to the `Fragman` documentation for detailed explanations.
 
-**Additional Updates of score_markers_rev3**
+**Additional Updates of `score_markers_rev390`**
 
 * Allows separate left/right **"window"** search specifications.
 
 * Disables progress bars and unused options like electrogram plotting.
 
-* Saves plots to a specified folder when **plotting** = TRUE and **plotdir** is 
-provided. **plotdir** should be formatted with the `/` after the directory name
+* Saves plots to a specified folder when `plotting = TRUE` and `plotdir` is
+provided. `plotdir` should be formatted with the `/` after the directory name
 (eg. "plot_scoring/" for iOS).
 
 ```{r,message=FALSE}
-scores_SMMS2 <- score_markers_rev3(my.inds = fsa_data, 
-                                   channel = 1, 
+scores_SMMS2 <- score_markers_rev3(my.inds = fsa_data,
+                                   channel = 1,
                                    channel.ladder = 5,
-                                   panel = "mic_SMMS2", 
+                                   panel = "mic_SMMS2",
                                    ladder = GS600LIZ,
                                    init.thresh = 100,
                                    ploidy = length(mic_SMMS2),
                                    shift = 1,
-                                   windowL = 1, 
+                                   windowL = 1,
                                    windowR= 1,
-                                   left.cond = c(0, 2.5), 
+                                   left.cond = c(0, 2.5),
                                    right.cond = 0,
-                                   pref = 1, 
+                                   pref = 1,
                                    plotting = FALSE
-                                   ) 
+                                   )
 
-scores_Shae10 <- score_markers_rev3(my.inds = fsa_data, 
-                                   channel = 1, 
+scores_Shae10 <- score_markers_rev3(my.inds = fsa_data,
+                                   channel = 1,
                                    channel.ladder = 5,
-                                   panel = "Shae10", 
+                                   panel = "Shae10",
                                    ladder = GS600LIZ,
                                    init.thresh = 100,
                                    ploidy = length(Shae10),
                                    shift = 1,
-                                   windowL = 1, 
+                                   windowL = 1,
                                    windowR= 1,
-                                   left.cond = c(0, 2.5), 
+                                   left.cond = c(0, 2.5),
                                    right.cond = 0,
-                                   pref = 1, 
+                                   pref = 1,
                                    plotting = FALSE
-                                   ) 
+                                   )
 ```
 
-**Note:** The author recommends setting **plotting** to TRUE and then visually inspecting the PDFs to confirm that each peak is being called as expected. If 
+**Note:** The author recommends setting `plotting` to `TRUE` and then visually
+inspecting the PDFs to confirm that each peak is being called as expected. If
 they are not, adjust the parameters until satisfied.
 
 ## Combining, Cleaning, and Exporting the Peak Dataframe
 
-After scoring peaks, combine the data frames for all samples of the same marker 
-into a single data frame instead of a list of lists You’ll also clean the sample 
+After scoring peaks, combine the data frames for all samples of the same marker
+into a single data frame instead of a list of lists You’ll also clean the sample
 IDs for consistency and prepare the data for downstream analyses.
 
 **Workflow**
 
-**1. Combine Data and Create Simplified IDs** 
+**1. Combine Data and Create Simplified IDs**
 
-`clean_scores` row-binds all of the individual data frames and removes 
+`clean_scores()` row-binds all the individual data frames and removes
 machine-added information from the ID column, keeping only the collection number
-and replicate 
+and replicate
 
-(e.g., **filename**: 104.1a_FA060920_2020-06-09_C05.fsa becomes **ID**: 104.1a). 
+(e.g., **filename**: `104.1a_FA060920_2020-06-09_C05.fsa` becomes **ID**: `104.1a`).
 
 ```{r}
 scores_SMMS2_lf<-clean_scores(scores_SMMS2, pattern1 = "_FA.*",replacement1 = "",
@@ -238,27 +241,27 @@ scores_Shae10_tdf <- lf_to_tdf(scores_Shae10_lf)
 
 **3. Export Tables**
 
-To save time in future analyses, export the processed peak data as .txt files. 
+To save time in future analyses, export the processed peak data as `.txt` files.
 This ensures you can access the data without rerunning the entire pipeline.
 
 ```{r,eval=FALSE}
 write.table(scores_SMMS2_lf, file = "scores_SMMS2_lfex.txt", col.names = NA,
-            quote = FALSE, row.names = TRUE, sep = "\t") 
+            quote = FALSE, row.names = TRUE, sep = "\t")
 write.table(scores_SMMS2_tdf, file = "scores_SMMS2_tdfex.txt", col.names = NA,
-            quote = FALSE, row.names = TRUE, sep = "\t") 
+            quote = FALSE, row.names = TRUE, sep = "\t")
 
 write.table(scores_Shae10_lf, file = "scores_Shae10_lfex.txt", col.names = NA,
-            quote = FALSE, row.names = TRUE, sep = "\t") 
+            quote = FALSE, row.names = TRUE, sep = "\t")
 write.table(scores_Shae10_tdf, file = "scores_Shae10_tdfex.txt", col.names = NA,
-            quote = FALSE, row.names = TRUE, sep = "\t") 
+            quote = FALSE, row.names = TRUE, sep = "\t")
 
 ```
 
-# 3. Data Manipulation 
+# 3. Data Manipulation
 
-This data manipulation section is important in order to prepare for the genetic 
-analysis but it is much simpler than the peak scoring portion above. Begin by 
-calling in the previously exported tdf data frames. For simplicity, this section 
+This data manipulation section is important in order to prepare for the genetic
+analysis but it is much simpler than the peak scoring portion above. Begin by
+calling in the previously exported tdf data frames. For simplicity, this section
 will only focus on marker SMMS2.
 
 ```{r}
@@ -275,7 +278,7 @@ head(SMMS2[, 1:9])
 
 ## Initial Data Manipulation
 
-The `data_manipulation` function should be used to clean the data first. It 
+The `data_manipulation` function should be used to clean the data first. It
 
 1. Removes samples without at least one peak exceeding the threshold.
 
@@ -290,7 +293,8 @@ head(SMMS2_IDM[, 1:9])
 
 Replicate samples are compared in the cleaned data frame (you can skip this step
 if you only ran each sample once). If you do have replicate samples, it replaces
-the individual columns .a and .b (.c, .d, etc.) with an average of the two and calculates the Jost's D between the samples.
+the individual columns `.a` and `.b` (`.c`, `.d`, etc.) with an average of the two
+and calculates the Jost's D between the samples.
 
 ```{r}
 SMMS2_repcheck <- Rep_check(SMMS2_IDM)
@@ -299,7 +303,7 @@ head(SMMS2_repcheck[, 3:11])
 
 ## Data Manipulation for Genetic Analysis
 
-`PCDM` or the Post-Consolidation Manipulation function prepares the data for the 
+`PCDM` or the Post-Consolidation Manipulation function prepares the data for the
 Genetic Analysis Section by:
 
 1. Matching eggcount information for each sample.
@@ -313,30 +317,38 @@ SMMS2_PCM<-PCDM(SMMS2_repcheck,eggcount,'SMMS2')
 head(SMMS2_PCM[,1:6])
 ```
 
-## Binding Markers and Exporting Allele Frequencies 
+## Binding Markers and Exporting Allele Frequencies
 
-If you have multiple markers, you can combine them into a single data frame using functions like `rbind.fill()`. This creates a consolidated structure with one column per sample and replaces any empty cells with NA. The processed data frame can be exported as a .txt file, allowing for efficient reuse in future analyses without repeating these steps.
+If you have multiple markers, you can combine them into a single data frame
+using functions like `rbind.fill()`. This creates a consolidated structure with
+one column per sample and replaces any empty cells with NA. The processed data
+frame can be exported as a .txt file, allowing for efficient reuse in future
+analyses without repeating these steps.
 
 ```{r,eval=FALSE}
 combined3<-rbind.fill(SMMS2_PCM, SMMS13_PCM, SMMS16_PCM)
 
-write.table(combined3, file = "combined3.txt", col.names = NA, 
-            quote = FALSE, row.names = TRUE, sep = "\t") 
+write.table(combined3, file = "combined3.txt", col.names = NA,
+            quote = FALSE, row.names = TRUE, sep = "\t")
 ```
 
 # 4. Genetic Analysis
 
-Welcome to the final stage of the pipeline: genetic analysis! This section 
-provides a high-level overview of the key steps involved in analyzing the 
-processed data for population genetics. It introduces essential methods like calculating genetic distance, visualizing population structure, and creating phylogenetic trees. 
+Welcome to the final stage of the pipeline: genetic analysis! This section
+provides a high-level overview of the key steps involved in analyzing the
+processed data for population genetics. It introduces essential methods like
+calculating genetic distance, visualizing population structure, and creating
+phylogenetic trees.
 
-**Note:** This is a general guide intended to demonstrate the pipeline's 
-capabilities, not a comprehensive or in-depth example. For detailed use cases or advanced analyses, you may need to adjust the parameters and explore additional functions in the package.
+**Note:** This is a general guide intended to demonstrate the pipeline's
+capabilities, not a comprehensive or in-depth example. For detailed use cases or
+advanced analyses, you may need to adjust the parameters and explore additional
+functions in the package.
 
 ## Loading the Dataset
 
 The `LoadData` function modifies and saves the data frame from the previous step
-as the gends object with an added column that indexes the Locus number. 
+as the gends object with an added column that indexes the Locus number.
 
 ```{r}
 gends <- LoadData("./combined3.txt")
@@ -345,12 +357,12 @@ head(gends[1:8])
 
 ## Calculating Gene Identity and Genetic Distance Matrices
 
-Next, we calculate the gene identity and genetic distances between samples. 
-This step is fundamental to all downstream genetic analyses, as they are the 
-basis for differentiation indices, clustering, phylogenetic trees, and other 
-population genetic metrics. This involves: 
+Next, we calculate the gene identity and genetic distances between samples.
+This step is fundamental to all downstream genetic analyses, as they are the
+basis for differentiation indices, clustering, phylogenetic trees, and other
+population genetic metrics. This involves:
 
-### 1. Counting loci successfully genotyped for each individual (`TypedLoci`). 
+### 1. Counting loci successfully genotyped for each individual (`TypedLoci`).
 
 ```{r}
 N <- TypedLoci(gends)
@@ -358,7 +370,7 @@ head(N[,1:5])
 
 ```
 
-### 2. Calculating pairwise gene identity for all samples (`GeneIdentityMatrix`). 
+### 2. Calculating pairwise gene identity for all samples (`GeneIdentityMatrix`).
 
 ```{r}
 J <- GeneIdentityMatrix(gends,N)
@@ -378,16 +390,16 @@ head(D[,1:5])
 We can use the gene identity matrix to calculate Nei's GST and Jost's D.
 
 ```{r}
-print(head(GST(J)[,1:5])) 
+print(head(GST(J)[,1:5]))
 
 print(head(JostD(J)[,1:5]))
 
 ```
 
 ## PCA Plot
-We can use the genetic distance matrix to visualize the “spread” of our 
-population in space. This can be done using a PCA plot. It accepts the distance 
-matrix, which PCs we want to include on the graph and how we want to 
+We can use the genetic distance matrix to visualize the “spread” of our
+population in space. This can be done using a PCA plot. It accepts the distance
+matrix, which PCs we want to include on the graph and how we want to
 differentiate the points.
 
 ```{r,fig.width=6, fig.height=4}
@@ -396,8 +408,8 @@ M <- MDSplot(D,pcs=c(1,2))
 
 ## Phylogenetic Tree
 
-You can also create a phylogenetic tree using `nj` from **ape** on the 
-genetic distance matrix. The resulting tree is ladderized and 
+You can also create a phylogenetic tree using `nj` from **ape** on the
+genetic distance matrix. The resulting tree is ladderized and
 then plotted as an unrooted tree.
 
 ```{r,fig.width=6, fig.height=4}
@@ -406,10 +418,11 @@ Tr <- ladderize(Tr)
 plot(Tr,cex=0.5,no.margin = TRUE,type='phylogram')
 ```
 
-# Conclusion 
+# Conclusion
 
-This pipeline provides powerful tools for exploring population genetics, 
-offering flexibility to adapt to various datasets and research questions. While 
+This pipeline provides powerful tools for exploring population genetics,
+offering flexibility to adapt to various datasets and research questions. While
 this section highlights the main features of the pipeline, further customization
-may be required for specific analyses.The combination of reproducibility, 
-offline capability, and user control makes this pipeline a valuable resource for genetic studies.
+may be required for specific analyses. The combination of reproducibility,
+offline capability, and user control makes this pipeline a valuable resource for
+genetic studies.

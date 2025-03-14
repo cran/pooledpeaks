@@ -1,6 +1,6 @@
-9dc0204578b2042e5f05c0c32c09e280 *DESCRIPTION
+59e65460a0a7dfd1ef0ccddd251b4652 *DESCRIPTION
 ec05518696846e1a18c1d8d318cf4956 *NAMESPACE
-43f922856278dbe8a2ce554553272021 *NEWS.md
+00ad570c4b1beeb3e812afb8e6f84343 *NEWS.md
 b2f9fd290788fe516a23889343c76f9b *R/Clustering.R
 a7f35f72d8c79f475d7f3257a6a17bca *R/Pop_Gen_Functions.R
 9d8a555454736d89d24612e43b0d728e *R/Pop_Gen_setup.R
@@ -11,12 +11,14 @@ ebdd97de802bc37d2a6b7eb9d9c23b2b *R/batch_import.R
 0cf87e8ab5d22a78cd735e12ee182803 *R/lf_to_tdf.R
 e38eb7237dfafb0e6c631e698e4a468a *R/pooledpeaks-package.R
 4ab2690d10d66bed32048626122a2f5c *R/score_marker_wrap.R
-d80535ae0eb061dea5b3148151f9e99e *README.md
-76161b65639451c966be75488458b3c3 *build/partial.rdb
-88befb41198a967dae52fad2a421abc9 *build/vignette.rds
-7f3ac512f9a2b806d362c8437b8892f3 *inst/doc/workflow.R
-752e2a9972b40ddd58756eb3b1e6ca2a *inst/doc/workflow.Rmd
-bcb9bd2a2d2538015e0a4f5c87df5149 *inst/doc/workflow.html
+7df8128a558b007dc5f2ca4f5eb371b1 *README.md
+4454e632feb75ce4f508807d50b3b12f *build/partial.rdb
+1b7a8761c723f2c50342a69925ea670f *build/vignette.rds
+851c3ce11d0f7aeaa277719267f0164c *inst/CODE_OF_CONDUCT.md
+e04a6ad85387e5bd78bdc81eaf614514 *inst/CONTRIBUTING.md
+f59714b5283f1736bf111ac56d42137d *inst/doc/workflow.R
+59b214330b39ac56cbc1bb7edf3542c5 *inst/doc/workflow.Rmd
+56259eb5fab7106a783067070ad01d85 *inst/doc/workflow.html
 0976d90590f1b2127baa25e3f25f9a43 *inst/extdata/23.2a_I_A01_2012-07-18.fsa
 47d5ac10a622a525fb0422b561e4756d *inst/extdata/23.2b_I_A07_2012-07-18.fsa
 7e6713d04b50ae3272519077c3816693 *inst/extdata/30.3a_I_B01_2012-07-18.fsa
@@ -85,4 +87,4 @@ b4967e7a5628e25336e9f96b074e2f98 *tests/testthat/test-lf_to_tdf.R
 35695db12e252d2ab5999404bab83e20 *vignettes/combined3.txt
 95ddda881f586c96c172dbb7fe0d5d1b *vignettes/scores_SMMS2_lfex.txt
 83512dd49716e26817c4ef34249251b3 *vignettes/scores_SMMS2_tdfex.txt
-752e2a9972b40ddd58756eb3b1e6ca2a *vignettes/workflow.Rmd
+59b214330b39ac56cbc1bb7edf3542c5 *vignettes/workflow.Rmd

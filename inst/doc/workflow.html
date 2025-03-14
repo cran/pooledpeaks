@@ -373,57 +373,59 @@ Manipulation, and Genetic Analysis, can be run separately.</p>
 the working directory, loading the required libraries, reading in the
 source files with the functions written specifically for this analysis
 pipeline.</p>
-<p>In addition to <strong>pooledpeaks</strong>, library the following
-packages to utilize this package to its fullest capacity.</p>
+<p>In addition to the <code>pooledpeaks</code> library the following
+packages are require to utilize this package to its fullest
+capacity.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(Fragman)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ape)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
-<p>Identify where the .fsa files are located on your computer, load in
-the eggcount data (should be an excel or csv file but can be a
-dataframe), and provide the expected peak size panels for your markers
-and ladder.</p>
+<p>Identify where the <code>.fsa</code> files are located on your
+computer, load in the eggcount data (should be an excel or csv file but
+can be a dataframe), and provide the expected peak size panels for your
+markers and ladder.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="at">package =</span> <span class="st">&quot;pooledpeaks&quot;</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>eggcount <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    <span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;X104.1&quot;</span>,  <span class="st">&quot;X1084.1&quot;</span>, <span class="st">&quot;X1084.3&quot;</span>, <span class="st">&quot;X1086.3&quot;</span>, <span class="st">&quot;X1087.3&quot;</span>, <span class="st">&quot;X1205.3&quot;</span>, </span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>           <span class="st">&quot;X121.3&quot;</span>,  <span class="st">&quot;X1222.3&quot;</span>, <span class="st">&quot;X1354.3&quot;</span>, <span class="st">&quot;X1453.3&quot;</span>, <span class="st">&quot;X1531.3&quot;</span>, <span class="st">&quot;X1540.1&quot;</span>, </span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>           <span class="st">&quot;X1550.3&quot;</span>, <span class="st">&quot;X1796.1&quot;</span>, <span class="st">&quot;X1809.1&quot;</span>, <span class="st">&quot;X1968.1&quot;</span>, <span class="st">&quot;X1968.3&quot;</span>, <span class="st">&quot;X2100.1&quot;</span>, </span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>           <span class="st">&quot;X2462.1&quot;</span>, <span class="st">&quot;X2463.1&quot;</span>, <span class="st">&quot;X473.1&quot;</span>,  <span class="st">&quot;X620.1&quot;</span>,  <span class="st">&quot;X620.3&quot;</span>, <span class="st">&quot;X679.1&quot;</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    <span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;X104.1&quot;</span>,  <span class="st">&quot;X1084.1&quot;</span>, <span class="st">&quot;X1084.3&quot;</span>, <span class="st">&quot;X1086.3&quot;</span>, <span class="st">&quot;X1087.3&quot;</span>, <span class="st">&quot;X1205.3&quot;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>           <span class="st">&quot;X121.3&quot;</span>,  <span class="st">&quot;X1222.3&quot;</span>, <span class="st">&quot;X1354.3&quot;</span>, <span class="st">&quot;X1453.3&quot;</span>, <span class="st">&quot;X1531.3&quot;</span>, <span class="st">&quot;X1540.1&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>           <span class="st">&quot;X1550.3&quot;</span>, <span class="st">&quot;X1796.1&quot;</span>, <span class="st">&quot;X1809.1&quot;</span>, <span class="st">&quot;X1968.1&quot;</span>, <span class="st">&quot;X1968.3&quot;</span>, <span class="st">&quot;X2100.1&quot;</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>           <span class="st">&quot;X2462.1&quot;</span>, <span class="st">&quot;X2463.1&quot;</span>, <span class="st">&quot;X473.1&quot;</span>,  <span class="st">&quot;X620.1&quot;</span>,  <span class="st">&quot;X620.3&quot;</span>, <span class="st">&quot;X679.1&quot;</span>,</span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>           <span class="st">&quot;X910.1&quot;</span>,  <span class="st">&quot;X910.3&quot;</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">192</span>, <span class="dv">126</span>, <span class="dv">185</span>, <span class="dv">171</span>, <span class="dv">140</span>, <span class="dv">20</span>, <span class="dv">46</span>, <span class="dv">80</span>, <span class="dv">156</span>, <span class="dv">154</span>, <span class="dv">122</span>, <span class="dv">19</span>, <span class="dv">45</span>, <span class="dv">117</span>, <span class="dv">75</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">192</span>, <span class="dv">126</span>, <span class="dv">185</span>, <span class="dv">171</span>, <span class="dv">140</span>, <span class="dv">20</span>, <span class="dv">46</span>, <span class="dv">80</span>, <span class="dv">156</span>, <span class="dv">154</span>, <span class="dv">122</span>, <span class="dv">19</span>, <span class="dv">45</span>, <span class="dv">117</span>, <span class="dv">75</span>,</span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>          <span class="dv">22</span>, <span class="dv">175</span>, <span class="dv">100</span>, <span class="dv">97</span>, <span class="dv">183</span>, <span class="dv">67</span>, <span class="dv">90</span>, <span class="dv">157</span>, <span class="dv">104</span>, <span class="dv">195</span>, <span class="dv">145</span>)</span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  )</span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>Shae10 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">161</span>,<span class="dv">164</span>,<span class="dv">167</span>,<span class="dv">170</span>,<span class="dv">173</span>,<span class="dv">176</span>,<span class="dv">179</span>,<span class="dv">182</span>,<span class="dv">185</span>,<span class="dv">188</span>,<span class="dv">191</span>,<span class="dv">194</span>,<span class="dv">197</span>,<span class="dv">200</span>,<span class="dv">203</span>,<span class="dv">206</span>,<span class="dv">209</span>,</span>
 <span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>            <span class="dv">212</span>,<span class="dv">215</span>,<span class="dv">218</span>)</span>
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>mic_SMMS2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">211</span>, <span class="dv">215</span>, <span class="dv">219</span>, <span class="dv">223</span>, <span class="dv">227</span>, <span class="dv">231</span>, <span class="dv">235</span>, <span class="dv">239</span>)</span>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>GS600LIZ <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">80</span>, <span class="dv">100</span>, <span class="dv">114</span>, <span class="dv">120</span>, <span class="dv">140</span>, <span class="dv">160</span>, <span class="dv">180</span>, <span class="dv">200</span>, <span class="dv">214</span>, <span class="dv">220</span>,</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>              <span class="dv">240</span>, <span class="dv">250</span>, <span class="dv">260</span>, <span class="dv">280</span>, <span class="dv">300</span>, <span class="dv">314</span>, <span class="dv">320</span>, <span class="dv">340</span>, <span class="dv">360</span>, <span class="dv">380</span>, <span class="dv">400</span>, <span class="dv">414</span>, </span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>              <span class="dv">240</span>, <span class="dv">250</span>, <span class="dv">260</span>, <span class="dv">280</span>, <span class="dv">300</span>, <span class="dv">314</span>, <span class="dv">320</span>, <span class="dv">340</span>, <span class="dv">360</span>, <span class="dv">380</span>, <span class="dv">400</span>, <span class="dv">414</span>,</span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>              <span class="dv">420</span>, <span class="dv">440</span>, <span class="dv">460</span>, <span class="dv">480</span>, <span class="dv">500</span>, <span class="dv">514</span>, <span class="dv">520</span>, <span class="dv">540</span>, <span class="dv">560</span>, <span class="dv">580</span>, <span class="dv">600</span>)</span></code></pre></div>
 </div>
 <div id="peak-scoring" class="section level1">
 <h1>2. Peak Scoring</h1>
 <p>With your data loaded, we can move on to the peak scoring section. To
 facilitate this process, <strong>pooledpeaks</strong> incorporates
-functionality adapted from the <strong>Fragman</strong> package,
-originally developed for microsatellite typing in plants. These
-adaptations allow for the scoring of both allele sizes and their
-corresponding heights in the newer .fsa file versions.</p>
+functionality adapted from the <code>Fragman</code> package, originally
+developed for microsatellite typing in plants. These adaptations allow
+for the scoring of both allele sizes and their corresponding heights in
+the newer <code>.fsa</code> file versions.</p>
 <div id="batch-import-and-extracting-.fsa-data" class="section level2">
 <h2>Batch Import and Extracting .fsa Data</h2>
-<p>This section demonstrates how to import the .fsa files from the file
-directory into R and combine all of them into a list of data frames,
-wherein each file is stored as a data frame within the list.
-<strong>channels</strong> specifies that we are using a five channel dye
-set of which 1-4 are fluorescent label colors, and 5 contains the
-ladder. <strong>fourier</strong> and <strong>saturated</strong> should
-both be set to TRUE and <strong>lets.pullup</strong> to FALSE. When
-<strong>rawPlot</strong> is set to TRUE, the function will provide an
-overview of all peaks across all files within each channel. Once .fsa
-files have been imported, the dyes must be associated with the channels.
-This can be done using <code>associate_dyes()</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>fsa_data <span class="ot">&lt;-</span> <span class="fu">fsa_batch_imp</span>(file_path, <span class="at">channels =</span> <span class="dv">5</span>, <span class="at">rawPlot =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>                              <span class="at">fourier =</span> <span class="cn">TRUE</span>, <span class="at">saturated =</span> <span class="cn">TRUE</span>, </span>
+<p>This section demonstrates how to import the <code>.fsa</code> files
+from the file directory into R and combine all of them into a list of
+data frames, wherein each file is stored as a data frame within the
+list. <code>channels</code> specifies that we are using a five channel
+dye set of which 1-4 are fluorescent label colors, and 5 contains the
+ladder. <code>fourier</code> and <code>saturated</code> should both be
+set to <code>TRUE</code> and <code>lets.pullup</code> to
+<code>FALSE</code>. When <code>rawPlot</code> is set to
+<code>TRUE</code>, the function will provide an overview of all peaks
+across all files within each channel. Once <code>.fsa</code> files have
+been imported, the dyes must be associated with the channels. This can
+be done using <code>associate_dyes()</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>fsa_data <span class="ot">&lt;-</span> <span class="fu">fsa_batch_imp</span>(file_path, <span class="at">channels =</span> <span class="dv">5</span>, <span class="at">rawPlot =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>                              <span class="at">fourier =</span> <span class="cn">TRUE</span>, <span class="at">saturated =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>                              <span class="at">lets.pullup =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; Reading FSA files</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; Applying Fourier tranformation for smoothing...</span></span>
@@ -438,107 +440,108 @@ to consider checking the file version and/or metadata using
 <h2>Match Sizing Ladder</h2>
 <p>To calibrate fragment sizes, the internal size marker peaks in each
 sample must match the expected sizes from the ladder. For this example,
-we use the <strong>LIZ600</strong> object, which contains the expected
+we use the <code>LIZ600</code> object, which contains the expected
 allele sizes for the ladder. If you are using a different ladder or wish
-to adjust the fragment sizes, modify the c(…) values in the setup.</p>
+to adjust the fragment sizes, modify the <code>c(...)</code> values in
+the setup.</p>
 <p>Next, we associate the ladder with the imported data. This step is
 performed once per dataset and ensures proper sizing by comparing the
 expected ladder sizes with the observed values. The program checks the
 correlation between these values, outputs the correlation results, and
 flags poorly correlated samples (&lt;99.9%) in a vector named
-<strong>bad</strong>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ladder.info.attach</span>(<span class="at">stored =</span> fsa_data,<span class="at">ladder =</span> GS600LIZ, </span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                   <span class="at">ladd.init.thresh =</span> <span class="dv">200</span>, <span class="at">prog =</span> <span class="cn">FALSE</span>, <span class="at">draw =</span> <span class="cn">FALSE</span>) </span>
+<code>bad</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ladder.info.attach</span>(<span class="at">stored =</span> fsa_data,<span class="at">ladder =</span> GS600LIZ,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                   <span class="at">ladd.init.thresh =</span> <span class="dv">200</span>, <span class="at">prog =</span> <span class="cn">FALSE</span>, <span class="at">draw =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>corro <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">sapply</span>(list.data.covarrubias, <span class="cf">function</span>(x){x<span class="sc">$</span>corr}))</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>bad <span class="ot">&lt;-</span> <span class="fu">which</span>(corro <span class="sc">&lt;</span> .<span class="dv">999</span>)</span></code></pre></div>
 <p><strong>Note:</strong> If warnings are thrown, lowering the
-<strong>ladd.init.thresh</strong> may resolve the issue, or certain
-samples may need to be addressed manually as per the
-<strong>Fragman</strong> documentation (run
-<strong>?ladder.corrector</strong>).</p>
+<code>ladd.init.thresh</code> may resolve the issue, or certain samples
+may need to be addressed manually as per the <code>Fragman</code>
+documentation (run <code>?ladder.corrector</code>).</p>
 </div>
 <div id="scoring-peaks-by-marker" class="section level2">
 <h2>Scoring Peaks by Marker</h2>
 <p>The above chunks set up all samples for all markers and only need to
 be done once per analysis. The following steps will need to be repeated
 as many times as the number of microsatellite markers you have.</p>
-<p>Using the <strong>score_markers_rev3</strong> function (adapted from
-<strong>Fragman</strong>), you can score genotyped peaks based on size
+<p>Using the <code>score_markers_rev3</code> function (adapted from
+<code>Fragman</code>), you can score genotyped peaks based on size
 (weight) and intensity (height). This function bins peaks by comparing
 observed fragment sizes to expected microsatellite fragment sizes.</p>
 <p><strong>Key Parameters to Customize</strong></p>
 <ul>
-<li><p><strong>my.inds:</strong> The object containing your .fsa
+<li><p><code>my.inds</code>: The object containing your .fsa
 data.</p></li>
-<li><p><strong>channel:</strong> The fluorescence channel to analyze
-(e.g., 1 = blue, 2 = green, etc.).</p></li>
-<li><p><strong>panel:</strong> Expected fragment sizes for your
+<li><p><code>channel</code>: The fluorescence channel to analyze (e.g.,
+1 = blue, 2 = green, etc.).</p></li>
+<li><p><code>panel</code>: Expected fragment sizes for your
 sample.</p></li>
-<li><p><strong>Ladder:</strong> The ladder associated with your
+<li><p><code>Ladder</code>: The ladder associated with your
 dataset.</p></li>
-<li><p><strong>init.thresh:</strong> RFU value threshold to consider a
-peak valid.</p></li>
-<li><p><strong>ploidy:</strong> The number of possible alleles per
-marker (e.g., for diploids, ploidy = 2).</p></li>
+<li><p><code>init.thresh</code>: RFU value threshold to consider a peak
+valid.</p></li>
+<li><p><code>ploidy</code>: The number of possible alleles per marker
+(e.g., for diploids, ploidy = 2).</p></li>
 </ul>
-<p>Other options like <strong>window</strong> (distance from the
-expected size to count as a peak) and <strong>shift</strong> (handling
-stutter peaks) can be adjusted as needed. Refer to the
-<strong>Fragman</strong> documentation for detailed explanations.</p>
-<p><strong>Additional Updates of score_markers_rev3</strong></p>
+<p>Other options like <code>window</code> (distance from the expected
+size to count as a peak) and <code>shift</code> (handling stutter peaks)
+can be adjusted as needed. Refer to the <code>Fragman</code>
+documentation for detailed explanations.</p>
+<p><strong>Additional Updates of
+<code>score_markers_rev390</code></strong></p>
 <ul>
 <li><p>Allows separate left/right <strong>“window”</strong> search
 specifications.</p></li>
 <li><p>Disables progress bars and unused options like electrogram
 plotting.</p></li>
-<li><p>Saves plots to a specified folder when <strong>plotting</strong>
-= TRUE and <strong>plotdir</strong> is provided.
-<strong>plotdir</strong> should be formatted with the <code>/</code>
-after the directory name (eg. “plot_scoring/” for iOS).</p></li>
+<li><p>Saves plots to a specified folder when
+<code>plotting = TRUE</code> and <code>plotdir</code> is provided.
+<code>plotdir</code> should be formatted with the <code>/</code> after
+the directory name (eg. “plot_scoring/” for iOS).</p></li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>scores_SMMS2 <span class="ot">&lt;-</span> <span class="fu">score_markers_rev3</span>(<span class="at">my.inds =</span> fsa_data, </span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                                   <span class="at">channel =</span> <span class="dv">1</span>, </span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>scores_SMMS2 <span class="ot">&lt;-</span> <span class="fu">score_markers_rev3</span>(<span class="at">my.inds =</span> fsa_data,</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                                   <span class="at">channel =</span> <span class="dv">1</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                                   <span class="at">channel.ladder =</span> <span class="dv">5</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                                   <span class="at">panel =</span> <span class="st">&quot;mic_SMMS2&quot;</span>, </span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                                   <span class="at">panel =</span> <span class="st">&quot;mic_SMMS2&quot;</span>,</span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                                   <span class="at">ladder =</span> GS600LIZ,</span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>                                   <span class="at">init.thresh =</span> <span class="dv">100</span>,</span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                                   <span class="at">ploidy =</span> <span class="fu">length</span>(mic_SMMS2),</span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>                                   <span class="at">shift =</span> <span class="dv">1</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>                                   <span class="at">windowL =</span> <span class="dv">1</span>, </span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>                                   <span class="at">windowL =</span> <span class="dv">1</span>,</span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>                                   <span class="at">windowR=</span> <span class="dv">1</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>                                   <span class="at">left.cond =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5</span>), </span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>                                   <span class="at">left.cond =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5</span>),</span>
 <span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>                                   <span class="at">right.cond =</span> <span class="dv">0</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>                                   <span class="at">pref =</span> <span class="dv">1</span>, </span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>                                   <span class="at">pref =</span> <span class="dv">1</span>,</span>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>                                   <span class="at">plotting =</span> <span class="cn">FALSE</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>                                   ) </span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>                                   )</span>
 <span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; Reducing threshold 2x to find ladder </span></span>
 <span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; Reducing threshold 2x to find ladder</span></span>
 <span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>scores_Shae10 <span class="ot">&lt;-</span> <span class="fu">score_markers_rev3</span>(<span class="at">my.inds =</span> fsa_data, </span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>                                   <span class="at">channel =</span> <span class="dv">1</span>, </span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>scores_Shae10 <span class="ot">&lt;-</span> <span class="fu">score_markers_rev3</span>(<span class="at">my.inds =</span> fsa_data,</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>                                   <span class="at">channel =</span> <span class="dv">1</span>,</span>
 <span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>                                   <span class="at">channel.ladder =</span> <span class="dv">5</span>,</span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>                                   <span class="at">panel =</span> <span class="st">&quot;Shae10&quot;</span>, </span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>                                   <span class="at">panel =</span> <span class="st">&quot;Shae10&quot;</span>,</span>
 <span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>                                   <span class="at">ladder =</span> GS600LIZ,</span>
 <span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>                                   <span class="at">init.thresh =</span> <span class="dv">100</span>,</span>
 <span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a>                                   <span class="at">ploidy =</span> <span class="fu">length</span>(Shae10),</span>
 <span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>                                   <span class="at">shift =</span> <span class="dv">1</span>,</span>
-<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a>                                   <span class="at">windowL =</span> <span class="dv">1</span>, </span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a>                                   <span class="at">windowL =</span> <span class="dv">1</span>,</span>
 <span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a>                                   <span class="at">windowR=</span> <span class="dv">1</span>,</span>
-<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a>                                   <span class="at">left.cond =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5</span>), </span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a>                                   <span class="at">left.cond =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5</span>),</span>
 <span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>                                   <span class="at">right.cond =</span> <span class="dv">0</span>,</span>
-<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>                                   <span class="at">pref =</span> <span class="dv">1</span>, </span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>                                   <span class="at">pref =</span> <span class="dv">1</span>,</span>
 <span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>                                   <span class="at">plotting =</span> <span class="cn">FALSE</span></span>
-<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>                                   ) </span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>                                   )</span>
 <span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co">#&gt; Reducing threshold 2x to find ladder </span></span>
 <span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a><span class="co">#&gt; Reducing threshold 2x to find ladder</span></span></code></pre></div>
 <p><strong>Note:</strong> The author recommends setting
-<strong>plotting</strong> to TRUE and then visually inspecting the PDFs
-to confirm that each peak is being called as expected. If they are not,
-adjust the parameters until satisfied.</p>
+<code>plotting</code> to <code>TRUE</code> and then visually inspecting
+the PDFs to confirm that each peak is being called as expected. If they
+are not, adjust the parameters until satisfied.</p>
 </div>
 <div id="combining-cleaning-and-exporting-the-peak-dataframe" class="section level2">
 <h2>Combining, Cleaning, and Exporting the Peak Dataframe</h2>
@@ -548,11 +551,12 @@ also clean the sample IDs for consistency and prepare the data for
 downstream analyses.</p>
 <p><strong>Workflow</strong></p>
 <p><strong>1. Combine Data and Create Simplified IDs</strong></p>
-<p><code>clean_scores</code> row-binds all of the individual data frames
+<p><code>clean_scores()</code> row-binds all the individual data frames
 and removes machine-added information from the ID column, keeping only
 the collection number and replicate</p>
-<p>(e.g., <strong>filename</strong>: 104.1a_FA060920_2020-06-09_C05.fsa
-becomes <strong>ID</strong>: 104.1a).</p>
+<p>(e.g., <strong>filename</strong>:
+<code>104.1a_FA060920_2020-06-09_C05.fsa</code> becomes
+<strong>ID</strong>: <code>104.1a</code>).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>scores_SMMS2_lf<span class="ot">&lt;-</span><span class="fu">clean_scores</span>(scores_SMMS2, <span class="at">pattern1 =</span> <span class="st">&quot;_FA.*&quot;</span>,<span class="at">replacement1 =</span> <span class="st">&quot;&quot;</span>,</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                              <span class="at">pattern2 =</span> <span class="st">&quot;_Sample.*&quot;</span>, <span class="at">replacement2 =</span> <span class="st">&quot;&quot;</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
@@ -564,17 +568,17 @@ becomes <strong>ID</strong>: 104.1a).</p>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>scores_Shae10_tdf <span class="ot">&lt;-</span> <span class="fu">lf_to_tdf</span>(scores_Shae10_lf)</span></code></pre></div>
 <p><strong>3. Export Tables</strong></p>
 <p>To save time in future analyses, export the processed peak data as
-.txt files. This ensures you can access the data without rerunning the
-entire pipeline.</p>
+<code>.txt</code> files. This ensures you can access the data without
+rerunning the entire pipeline.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">write.table</span>(scores_SMMS2_lf, <span class="at">file =</span> <span class="st">&quot;scores_SMMS2_lfex.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">NA</span>,</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>) </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">write.table</span>(scores_SMMS2_tdf, <span class="at">file =</span> <span class="st">&quot;scores_SMMS2_tdfex.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">NA</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>) </span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">write.table</span>(scores_Shae10_lf, <span class="at">file =</span> <span class="st">&quot;scores_Shae10_lfex.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">NA</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>) </span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">write.table</span>(scores_Shae10_tdf, <span class="at">file =</span> <span class="st">&quot;scores_Shae10_tdfex.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">NA</span>,</span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>) </span></code></pre></div>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="data-manipulation" class="section level1">
@@ -616,13 +620,13 @@ threshold.</p></li>
 <h2>Replicate Check</h2>
 <p>Replicate samples are compared in the cleaned data frame (you can
 skip this step if you only ran each sample once). If you do have
-replicate samples, it replaces the individual columns .a and .b (.c, .d,
-etc.) with an average of the two and calculates the Jost’s D between the
-samples.</p>
+replicate samples, it replaces the individual columns <code>.a</code>
+and <code>.b</code> (<code>.c</code>, <code>.d</code>, etc.) with an
+average of the two and calculates the Jost’s D between the samples.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>SMMS2_repcheck <span class="ot">&lt;-</span> <span class="fu">Rep_check</span>(SMMS2_IDM)</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; Jost D between duplicate samples</span></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; CWRU.a, CWRU.b, X721.2, X735.2, X766.2, X766.3, X775.1, X775.2, X775.3, X776.2, X782.1, X782.2, X782.3, X783.3, X784.3, X785.1, X785.3, X825.1, X827.1, X827.2, X827.3, X840.2, X851.1, X851.2, X851.3, X854.1, X854.2, X854.3, X860.1, X860.2, X860.3, X861.1, X861.2, X861.3, X864.1, X864.2, X864.3, X870.11, X870.12, X872.2, X879.2, X881.3</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; 0.00395560228912828, 0.000281237851261329, 0.000281765496311648, 0.0109251475313559, 0.137849261262302, 0.000277779222130015, 0.000176335180481546, 6.1302811725783e-05, 0.0047542897971915, 0.0145011127620611, 0.000761668588801223, 1.64964676880874e-05, 5.07636748872109e-05, 0.000437262678883776, 0.000812426041037373, 5.68684675530395e-05, 1.13717846008665e-05, 0.00134921515936237, 0.000187337928136078, 0.000285444846679139, 0.00361823860435218, 0.00217964713145458, 0.000339468592148284, 0.000447663166460721, 0.0824474815786378, 2.56862342034037e-05, 0.86261592873236, 0.079387290335966, 4.86004568296394e-05, 0.0369644998122574, 0.0161201309865515, NA</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; 0.00395560228912828, 0.000281237851261329, 0.000281765496311648, 0.0109251475313559, 0.137849261262302, 0.000277779222130015, 0.000176335180481546, 6.1302811725783e-05, 0.0047542897971915, 0.0145011127620611, 0.000761668588801223, 1.64964676880874e-05, 5.07636748872109e-05, 0.000437262678883776, 0.000812426041037373, 5.68684675530395e-05, 1.13717846008665e-05, 0.00134921515936237, 0.000187337928136078, 0.000285444846679139, 0.00361823860435218, 0.00217964713145458, 0.000339468592148284, 0.000447663166460721, 0.0824474815786376, 2.56862342034037e-05, 0.86261592873236, 0.079387290335966, 4.86004568296394e-05, 0.0369644998122574, 0.0161201309865515, NA</span></span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; Samples where duplicates have a Jost D exceeding 0.05</span></span>
 <span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; NA, NA, X775.2, X782.1, NA, X785.1, X785.3, X827.2, X827.3, NA, NA, X860.3, X861.2, X861.3, X864.2, X864.3, NA</span></span>
 <span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="fu">head</span>(SMMS2_repcheck[, <span class="dv">3</span><span class="sc">:</span><span class="dv">11</span>])</span>
@@ -664,8 +668,8 @@ allowing for efficient reuse in future analyses without repeating these
 steps.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>combined3<span class="ot">&lt;-</span><span class="fu">rbind.fill</span>(SMMS2_PCM, SMMS13_PCM, SMMS16_PCM)</span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">write.table</span>(combined3, <span class="at">file =</span> <span class="st">&quot;combined3.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">NA</span>, </span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>) </span></code></pre></div>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">write.table</span>(combined3, <span class="at">file =</span> <span class="st">&quot;combined3.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">NA</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="genetic-analysis" class="section level1">
@@ -723,8 +727,8 @@ trees, and other population genetic metrics. This involves:</p>
 <span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; J19  0.3571634 0.3314657 0.3350303 0.3280159 0.3494865</span></span>
 <span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; J82  0.3314657 0.3376424 0.3383771 0.3226482 0.3341265</span></span>
 <span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt; J83  0.3350303 0.3383771 0.3464639 0.3286256 0.3353571</span></span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt; J95  0.3280159 0.3226482 0.3286256 0.3276570 0.3189978</span></span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; J96  0.3494865 0.3341265 0.3353571 0.3189978 0.3630649</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt; J95  0.3280159 0.3226482 0.3286256 0.3276570 0.3189977</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; J96  0.3494865 0.3341265 0.3353571 0.3189977 0.3630649</span></span>
 <span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt; J143 0.3531926 0.3378429 0.3381669 0.3286655 0.3565482</span></span></code></pre></div>
 </div>
 <div id="deriving-a-genetic-distance-matrix-geneticdistancematrix." class="section level3">
@@ -745,7 +749,7 @@ trees, and other population genetic metrics. This involves:</p>
 <h2>Differentiation Indices</h2>
 <p>We can use the gene identity matrix to calculate Nei’s GST and Jost’s
 D.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(<span class="fu">GST</span>(J)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])) </span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(<span class="fu">GST</span>(J)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]))</span>
 <span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co">#&gt;             [,1]        [,2]        [,3]        [,4]        [,5]</span></span>
 <span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="co">#&gt; [1,] 0.000000000 0.012063240 0.012780877 0.010826266 0.008235933</span></span>
 <span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co">#&gt; [2,] 0.012063240 0.000000000 0.002785797 0.007437667 0.012335183</span></span>
@@ -788,10 +792,9 @@ is ladderized and then plotted as an unrooted tree.</p>
 <p>This pipeline provides powerful tools for exploring population
 genetics, offering flexibility to adapt to various datasets and research
 questions. While this section highlights the main features of the
-pipeline, further customization may be required for specific
-analyses.The combination of reproducibility, offline capability, and
-user control makes this pipeline a valuable resource for genetic
-studies.</p>
+pipeline, further customization may be required for specific analyses.
+The combination of reproducibility, offline capability, and user control
+makes this pipeline a valuable resource for genetic studies.</p>
 </div>
 
 
