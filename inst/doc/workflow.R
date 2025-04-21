@@ -3,6 +3,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+knitr::opts_chunk$set(fig.width = 8, fig.height = 6)
 
 ## ----setup--------------------------------------------------------------------
 library(pooledpeaks)
@@ -12,18 +13,24 @@ library(Fragman)
 library(ape)
 library(magrittr)
 library(tibble)
+
+if (!rlang::is_installed("plyr")) {
+  stop("This vignette requires the 'plyr' package. Please install it with
+       install.packages('plyr').")
+}
+
+library(plyr)
 library(dplyr)
 
 ## -----------------------------------------------------------------------------
 file_path <- system.file("extdata", package = "pooledpeaks")
 eggcount <- data.frame(
-    ID = c("X104.1",  "X1084.1", "X1084.3", "X1086.3", "X1087.3", "X1205.3",
+    ID = c("X23.2",  "X30.3", "X33.1", "X1086.3", "X1087.3", "X1205.3",
            "X121.3",  "X1222.3", "X1354.3", "X1453.3", "X1531.3", "X1540.1",
-           "X1550.3", "X1796.1", "X1809.1", "X1968.1", "X1968.3", "X2100.1",
-           "X2462.1", "X2463.1", "X473.1",  "X620.1",  "X620.3", "X679.1",
-           "X910.1",  "X910.3"),
-    n = c(192, 126, 185, 171, 140, 20, 46, 80, 156, 154, 122, 19, 45, 117, 75,
-          22, 175, 100, 97, 183, 67, 90, 157, 104, 195, 145)
+           "Multiplex_set_I_Shaem.1",
+           "Multiplex_set_I_Shaem.3", "Multiplex_set_I_Shaem.4"),
+    n = c( 20, 46, 80, 156, 154, 122, 19, 45, 117, 75,
+          22, 175, 100, 97, 183)
   )
 Shae10 <- c(161,164,167,170,173,176,179,182,185,188,191,194,197,200,203,206,209,
             212,215,218)
@@ -33,16 +40,16 @@ GS600LIZ <- c(20, 40, 60, 80, 100, 114, 120, 140, 160, 180, 200, 214, 220,
               420, 440, 460, 480, 500, 514, 520, 540, 560, 580, 600)
 
 ## -----------------------------------------------------------------------------
-fsa_data <- fsa_batch_imp(file_path, channels = 5, rawPlot = FALSE,
+fsa_data <- fsa_batch_imp(file_path, channels = 5, rawPlot = TRUE,
                               fourier = TRUE, saturated = TRUE,
                               lets.pullup = FALSE)
 fsa_data <- associate_dyes(fsa_data, file_path)
 
-## ----message=FALSE,eval=FALSE-------------------------------------------------
-# ladder.info.attach(stored = fsa_data,ladder = GS600LIZ,
-#                    ladd.init.thresh = 200, prog = FALSE, draw = FALSE)
-# corro <- unlist(sapply(list.data.covarrubias, function(x){x$corr}))
-# bad <- which(corro < .999)
+## ----message=FALSE------------------------------------------------------------
+ladder.info.attach(stored = fsa_data,ladder = GS600LIZ,
+                   ladd.init.thresh = 200, prog = FALSE, draw = FALSE)
+corro <- unlist(sapply(list.data.covarrubias, function(x){x$corr}))
+bad <- which(corro < .999)
 
 ## ----message=FALSE------------------------------------------------------------
 scores_SMMS2 <- score_markers_rev3(my.inds = fsa_data,
@@ -78,11 +85,11 @@ scores_Shae10 <- score_markers_rev3(my.inds = fsa_data,
                                    )
 
 ## -----------------------------------------------------------------------------
-scores_SMMS2_lf<-clean_scores(scores_SMMS2, pattern1 = "_FA.*",replacement1 = "",
-                              pattern2 = "_Sample.*", replacement2 = "")
+scores_SMMS2_lf<-clean_scores(scores_SMMS2, pattern1 = "_I_[A|B|C].*",replacement1 = "",
+                              pattern2 = "_[1|2|3]_Sample.*", replacement2 = "")
 
-scores_Shae10_lf<-clean_scores(scores_Shae10, pattern1 = "_FA.*",replacement1 = "",
-                              pattern2 = "_Sample.*", replacement2 = "")
+scores_Shae10_lf<-clean_scores(scores_Shae10, pattern1 = "_I_[A|B|C].*",replacement1 = "",
+                              pattern2 = "_[1|2|3]_Sample.*", replacement2 = "")
 
 ## -----------------------------------------------------------------------------
 scores_SMMS2_tdf <- lf_to_tdf(scores_SMMS2_lf)
@@ -102,12 +109,8 @@ scores_Shae10_tdf <- lf_to_tdf(scores_Shae10_lf)
 # 
 
 ## -----------------------------------------------------------------------------
-SMMS2<- read.delim("./scores_SMMS2_tdfex.txt")
-
-## ----include=FALSE------------------------------------------------------------
-SMMS2<- SMMS2%>%
-  column_to_rownames(var = "X")%>%
-  select(-contains(".fsa"))
+SMMS2<- read.delim("./scores_SMMS2_tdfex.txt")%>%
+  column_to_rownames(var = "X")
 
 ## -----------------------------------------------------------------------------
 head(SMMS2[, 1:9])
@@ -118,16 +121,16 @@ head(SMMS2_IDM[, 1:9])
 
 ## -----------------------------------------------------------------------------
 SMMS2_repcheck <- Rep_check(SMMS2_IDM)
-head(SMMS2_repcheck[, 3:11])
+head(SMMS2_repcheck)
 
 ## -----------------------------------------------------------------------------
 SMMS2_PCM<-PCDM(SMMS2_repcheck,eggcount,'SMMS2')
 head(SMMS2_PCM[,1:6])
 
 ## ----eval=FALSE---------------------------------------------------------------
-# combined3<-rbind.fill(SMMS2_PCM, SMMS13_PCM, SMMS16_PCM)
+# combined<-rbind.fill(SMMS2_PCM, SMMS13_PCM, SMMS16_PCM)
 # 
-# write.table(combined3, file = "combined3.txt", col.names = NA,
+# write.table(combined, file = "combined.txt", col.names = NA,
 #             quote = FALSE, row.names = TRUE, sep = "\t")
 
 ## -----------------------------------------------------------------------------
