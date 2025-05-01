@@ -1,6 +1,6 @@
 Package: pooledpeaks
 Title: Genetic Analysis of Pooled Samples
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: c( 
     person("Kathleen", "Kuesters", email = "kathleen.kuesters@gmail.com", 
        role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0003-0238-7889")),
@@ -35,9 +35,9 @@ Config/testthat/edition: 3
 BugReports: https://github.com/kmkuesters/pooledpeaks/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2025-04-21 02:05:52 UTC; Kathleen
-Author: Kathleen Kuesters [aut, cre, cph]
-    (<https://orcid.org/0000-0003-0238-7889>),
+Packaged: 2025-05-01 20:53:56 UTC; Kathleen
+Author: Kathleen Kuesters [aut, cre, cph] (ORCID:
+    <https://orcid.org/0000-0003-0238-7889>),
   Jeffrey Long [aut],
   Jessica Blanton [aut],
   Walter Blank [ctb],
@@ -45,4 +45,4 @@ Author: Kathleen Kuesters [aut, cre, cph]
   Ronald Blanton [ctb]
 Maintainer: Kathleen Kuesters <kathleen.kuesters@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-04-21 02:30:02 UTC
+Date/Publication: 2025-05-01 21:20:02 UTC

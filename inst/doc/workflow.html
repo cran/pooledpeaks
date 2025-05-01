@@ -729,18 +729,20 @@ combined.</p></li>
 <span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt; 5 0.000000000 0.004730544</span></span>
 <span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co">#&gt; 6   0.0000000   0.0000000</span></span></code></pre></div>
 </div>
-<div id="binding-markers-and-exporting-allele-frequencies" class="section level2">
-<h2>Binding Markers and Exporting Allele Frequencies</h2>
+<div id="optional-binding-markers-and-exporting-allele-frequencies" class="section level2">
+<h2>OPTIONAL Binding Markers and Exporting Allele Frequencies</h2>
 <p>If you have multiple markers, you can combine them into a single data
 frame using functions like <code>rbind.fill()</code>. This creates a
 consolidated structure with one column per sample and replaces any empty
 cells with NA. The processed data frame can be exported as a .txt file,
 allowing for efficient reuse in future analyses without repeating these
 steps.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>combined<span class="ot">&lt;-</span><span class="fu">rbind.fill</span>(SMMS2_PCM, SMMS13_PCM, SMMS16_PCM)</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">write.table</span>(combined, <span class="at">file =</span> <span class="st">&quot;combined.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">NA</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># Optional binding of markers SMMS2 and markers SMMS13 and SMMS16 which were</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="co"># not shown in the workflow</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>combined<span class="ot">&lt;-</span><span class="fu">rbind.fill</span>(SMMS2_PCM, SMMS13_PCM, SMMS16_PCM)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="fu">write.table</span>(combined, <span class="at">file =</span> <span class="st">&quot;combined.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">NA</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="genetic-analysis" class="section level1">
@@ -769,15 +771,16 @@ mansoni populations by genetic analyses. Scientific Reports, 12, 1059.
 <p>The <code>LoadData</code> function modifies and saves the data frame
 as the gends object with an added column that indexes the Locus
 number.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>gends <span class="ot">&lt;-</span> <span class="fu">LoadData</span>(<span class="st">&quot;./combined3.txt&quot;</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">head</span>(gends[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co">#&gt;   Locus Locus_allele      J19       J82       J83       J95     J320     J323</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; 1     1        SMMS2       NA        NA        NA        NA       NA       NA</span></span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; 2     1            n 9376.000 13824.000 45144.000 42081.000 3119.000 5185.000</span></span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt; 3     1          212    0.002     0.006     0.005     0.006    0.005    0.003</span></span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt; 4     1        215.9    0.697     0.773     0.743     0.748    0.819    0.719</span></span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; 5     1        219.8    0.000     0.000     0.000     0.000    0.000    0.008</span></span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt; 6     1        235.2    0.301     0.221     0.252     0.246    0.176    0.270</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>gends <span class="ot">&lt;-</span> <span class="fu">LoadData</span>(<span class="fu">file.path</span>(file_path, <span class="st">&quot;combined3.txt&quot;</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="fu">head</span>(gends[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt;   Locus Locus_allele      J19       J82       J83       J95     J320     J323</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; 1     1        SMMS2       NA        NA        NA        NA       NA       NA</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt; 2     1            n 9376.000 13824.000 45144.000 42081.000 3119.000 5185.000</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt; 3     1          212    0.002     0.006     0.005     0.006    0.005    0.003</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; 4     1        215.9    0.697     0.773     0.743     0.748    0.819    0.719</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt; 5     1        219.8    0.000     0.000     0.000     0.000    0.000    0.008</span></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co">#&gt; 6     1        235.2    0.301     0.221     0.252     0.246    0.176    0.270</span></span></code></pre></div>
 </div>
 <div id="calculating-gene-identity-and-genetic-distance-matrices" class="section level2">
 <h2>Calculating Gene Identity and Genetic Distance Matrices</h2>

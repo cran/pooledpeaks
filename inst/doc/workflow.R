@@ -128,13 +128,16 @@ SMMS2_PCM<-PCDM(SMMS2_repcheck,eggcount,'SMMS2')
 head(SMMS2_PCM[,1:6])
 
 ## ----eval=FALSE---------------------------------------------------------------
+# # Optional binding of markers SMMS2 and markers SMMS13 and SMMS16 which were
+# # not shown in the workflow
 # combined<-rbind.fill(SMMS2_PCM, SMMS13_PCM, SMMS16_PCM)
 # 
 # write.table(combined, file = "combined.txt", col.names = NA,
 #             quote = FALSE, row.names = TRUE, sep = "\t")
 
 ## -----------------------------------------------------------------------------
-gends <- LoadData("./combined3.txt")
+gends <- LoadData(file.path(file_path, "combined3.txt"))
+
 head(gends[1:8])
 
 ## -----------------------------------------------------------------------------

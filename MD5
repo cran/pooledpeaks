@@ -1,6 +1,6 @@
-655c80394637b323977b8633b4d23a0a *DESCRIPTION
+4040514e716245e8358e2f75a42fa8ab *DESCRIPTION
 ec05518696846e1a18c1d8d318cf4956 *NAMESPACE
-040deb4fe8c00af39d3ce917ed94d0b7 *NEWS.md
+906c7a5449f17bf313cd8f322b530026 *NEWS.md
 b2f9fd290788fe516a23889343c76f9b *R/Clustering.R
 a7f35f72d8c79f475d7f3257a6a17bca *R/Pop_Gen_Functions.R
 9d8a555454736d89d24612e43b0d728e *R/Pop_Gen_setup.R
@@ -16,9 +16,9 @@ e38eb7237dfafb0e6c631e698e4a468a *R/pooledpeaks-package.R
 1b7a8761c723f2c50342a69925ea670f *build/vignette.rds
 851c3ce11d0f7aeaa277719267f0164c *inst/CODE_OF_CONDUCT.md
 e04a6ad85387e5bd78bdc81eaf614514 *inst/CONTRIBUTING.md
-ab0824b226c56fc05fd5657f5977710c *inst/doc/workflow.R
-31ea25908c17a680326be8d56803e1b1 *inst/doc/workflow.Rmd
-e71fef6832a2da0590960d110b1063d3 *inst/doc/workflow.html
+ec974288a5f0fef0ad0a829a15e1121c *inst/doc/workflow.R
+a65e0108990b9d5980751b9cc6222b9e *inst/doc/workflow.Rmd
+eb78b31b1387c2df713a850301259061 *inst/doc/workflow.html
 0976d90590f1b2127baa25e3f25f9a43 *inst/extdata/23.2a_I_A01_2012-07-18.fsa
 47d5ac10a622a525fb0422b561e4756d *inst/extdata/23.2b_I_A07_2012-07-18.fsa
 7e6713d04b50ae3272519077c3816693 *inst/extdata/30.3a_I_B01_2012-07-18.fsa
@@ -90,4 +90,4 @@ ee46fa2f77179fc633266d73e245509a *vignettes/scores_SMMS2_lfex.txt
 a074f15ace02c2de640ff5aacd5b2dc4 *vignettes/scores_SMMS2_tdfex.txt
 ccfce29cf207e751a2b4456cdbc78c7b *vignettes/scores_Shae10_lfex.txt
 4b2ade332a686c2f1d1c691eb82dc941 *vignettes/scores_Shae10_tdfex.txt
-31ea25908c17a680326be8d56803e1b1 *vignettes/workflow.Rmd
+a65e0108990b9d5980751b9cc6222b9e *vignettes/workflow.Rmd
