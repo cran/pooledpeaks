@@ -1,6 +1,6 @@
-4040514e716245e8358e2f75a42fa8ab *DESCRIPTION
+cb93f08d6f50012133010330ab353fa3 *DESCRIPTION
 ec05518696846e1a18c1d8d318cf4956 *NAMESPACE
-906c7a5449f17bf313cd8f322b530026 *NEWS.md
+913fcdc976ce3c8d16f33d2bfc1b46f1 *NEWS.md
 b2f9fd290788fe516a23889343c76f9b *R/Clustering.R
 a7f35f72d8c79f475d7f3257a6a17bca *R/Pop_Gen_Functions.R
 9d8a555454736d89d24612e43b0d728e *R/Pop_Gen_setup.R
@@ -33,8 +33,8 @@ a74d503bef3c2b427f33ea8e0219591c *inst/extdata/Multiplex_set_I_Shaem.3b_2_Sample
 96996ad206b7900b475271da8080ac8d *inst/extdata/Multiplex_set_I_Shaem.4a_3_Sample_20221028_215634.fsa
 d15b927cc9dd299228ea4f0dbd1b8ed5 *inst/extdata/Multiplex_set_I_Shaem.4b_3_Sample_20221028_232303.fsa
 f0d2b275323ff55b4f04cf71900da345 *inst/extdata/combined3.txt
-7bb960304d2da223912644accb619069 *inst/paper.html
-41cafe749da1f143c0bcd482177bca86 *inst/paper.md
+1a93411643994ae6305577d6e0c0a9b6 *inst/paper.html
+9ad1be233adfaf7f758f17c13335496e *inst/paper.md
 d1bf9369e0ccf9628025ed89cce28f16 *inst/pooledpeaks_paper.bib
 27cb77c122bcbe7d49e5941adce75aad *man/AlRich.Rd
 e49d075becfc130af9961fcc76a8fc41 *man/BootStrap3.Rd
